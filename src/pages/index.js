@@ -24,7 +24,7 @@ import SalesByCountries from 'src/views/dashboard/SalesByCountries'
 
 const Dashboard = () => {
   return (
-    <div>Aslam</div>
+    <div>{process.env.NEXT_PUBLIC_API_URL}</div>
   )
 }
 
