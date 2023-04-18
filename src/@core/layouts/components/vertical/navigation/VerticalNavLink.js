@@ -69,7 +69,7 @@ const VerticalNavLink = ({ item, navVisible, toggleNavVisibility }) => {
       <Link passHref href={item.path === undefined ? '/' : `${item.path}`}>
         <MenuNavLink
           component={'a'}
-          className={isNavLinkActive() ? 'active' : ''}
+          className={isNavLinkActive() ? 'active' : 'active'}
           {...(item.openInNewTab ? { target: '_blank' } : null)}
           onClick={e => {
             if (item.path === undefined) {
