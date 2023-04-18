@@ -8,27 +8,39 @@ import PlusIcon from 'mdi-material-ui/Plus';
 import { Skeleton } from '@mui/material';
 import { Box } from 'mdi-material-ui';
 import Grid from '@mui/material/Grid'
+import { useTheme } from "@mui/material";
+import useMediaQuery from '@mui/material/useMediaQuery';
+import IconButton from '@mui/material/IconButton'
 
 
-function MainContainer({title,actionButtonTitle,contentComponent,actionModalComponent,isloading}){
+
+function MainContainer({title,actionButtonTitle,contentComponent,actionModalComponent,isloading,closeModal}){
     const [anchorEl, setanchorEl] = useState(null)
     
     const handleActionForm = (event) => {
         setanchorEl(event.currentTarget);
     }
+    
     const handleClose = () => {
         setanchorEl(null)
     }
     
     const open = Boolean(anchorEl)
     const id = open ? 'simple-popover' : undefined;
+
+    const theme = useTheme()
+    const matches = useMediaQuery(theme.breakpoints.down('sm'));
     
+
     return (
         <Card>
             <CardHeader
                 title={title}
-                titleTypographyProps={{ sx: { lineHeight: '1.2 !important', letterSpacing: '0.31px !important' } }}
+                titleTypographyProps={{ sx: { lineHeight: '1.2 !important', letterSpacing: '0.31px !important',color: theme.palette.primary.main }}}
                 action={
+                    matches ? <IconButton size='small' aria-label='add' className='card-more-options' sx={{ color: theme.palette.primary.main }} onClick={handleActionForm}>
+                            <PlusIcon/>
+                    </IconButton> :
                     <Button variant="outlined" aria-describedby={id} startIcon={<PlusIcon />} onClick={handleActionForm}>
                         {actionButtonTitle}
                     </Button>
