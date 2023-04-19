@@ -50,7 +50,6 @@ const Dashboard = () => {
           noValidate
           sx={{
             '& .MuiTextField-root': { m: 1, width:300 },
-            border:'1px solid'
           }}
           autoComplete="off"
           onSubmit={onSubmitHandler}>

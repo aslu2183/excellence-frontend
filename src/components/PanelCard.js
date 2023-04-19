@@ -10,7 +10,7 @@ import Button from '@mui/material/Button';
 import TaskCard from "./TaskCard";
 
 
-function PanelCard({data, onA}){
+function PanelCard({data, onAction}){
     const handleAction = (e) => {
         e.preventDefault()
         onAction(data._id)
