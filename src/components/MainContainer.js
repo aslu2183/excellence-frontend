@@ -11,6 +11,7 @@ import Grid from '@mui/material/Grid'
 import { useTheme } from "@mui/material";
 import useMediaQuery from '@mui/material/useMediaQuery';
 import IconButton from '@mui/material/IconButton'
+import Typography from '@mui/material/Typography'
 
 
 
@@ -35,7 +36,7 @@ function MainContainer({title,actionButtonTitle,contentComponent,actionModalComp
     return (
         <Card>
             <CardHeader
-                title={title}
+                title={<Typography variant="h5" sx={{color:'primary.main',fontWeight:'bold'}}>{title}</Typography>}
                 titleTypographyProps={{ sx: { lineHeight: '1.2 !important', letterSpacing: '0.31px !important',color: theme.palette.primary.main }}}
                 action={
                     matches ? <IconButton size='small' aria-label='add' className='card-more-options' sx={{ color: theme.palette.primary.main }} onClick={handleActionForm}>

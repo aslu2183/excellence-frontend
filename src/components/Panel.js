@@ -20,9 +20,21 @@ function Panel({data, onAction}){
             
             {
                 data?.panels?.map((res) => {
+                    const tasks = data.tasks.filter((task) => task.panelId.toString() == res._id.toString())
+                    tasks.sort((a,b) => new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime())
+                    
+                    const panelData = {
+                        ...res,
+                        tasks   : tasks,
+                        boardId : data._id
+                    }
+                    
                     return (
                         <Box sx={{minWidth:280,mb:2,mr:3}} key={res._id}>
-                           <PanelCard data={res} onAction={onAction}></PanelCard>
+                            <PanelCard 
+                                data={panelData} 
+                                onAction={onAction}>
+                            </PanelCard>
                         </Box>   
                        
                     )

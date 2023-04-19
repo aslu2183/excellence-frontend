@@ -65,9 +65,9 @@ function ViewBoard(){
             ...prevState,
             panels : newData
         }))
-        Axios().post('/delete-panel',{panels:newData,boardId:details._id})
+        Axios().post('/delete-panel',{panels:newData,boardId:details._id,deletedPanel:panelId})
         .then((res) => {
-            console.log("Response ",res)
+            console.log("Response ",res.data)
         }).catch((err) => {
             console.log("Error")
         })
