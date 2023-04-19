@@ -40,13 +40,14 @@ function PanelCard({data, onAction}){
         const newTasks = tasks.filter((item) => item._id != "new-entry")
         settasks(newTasks)
     }
-    
+
     const saveTask = (desc) => {
         const item = {
             _id : `saved-entry-${tasks.length}`,
             panelId : data._id,
             boardId : data.boardId,
             description : desc,
+            check_list: []
         }
         tasks.splice(0,1,item)
         settasks((prevState) => [...prevState ])

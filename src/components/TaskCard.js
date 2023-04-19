@@ -12,12 +12,13 @@ import TextField from '@mui/material/TextField';
 import CloseIcon from 'mdi-material-ui/Close'
 import DeleteIcon from 'mdi-material-ui/Delete'
 import moment from 'moment';
-
+import TaskModal from "./TaskModal";
 
 function TaskCard({data, removeForm, saveTask, removeTask}){
 
     const richTextRef = useRef(null)
     const [hasError, setHasError] = useState(false)
+    const [openModal, setopenModal] = useState(false)
     
     const handleCheckList = (e) => {
         e.preventDefault()
@@ -27,7 +28,7 @@ function TaskCard({data, removeForm, saveTask, removeTask}){
         const description = richTextRef.current.value
         if(!description){
             setHasError(true);
-            
+
             return false;
         }
         saveTask(description)
@@ -36,10 +37,18 @@ function TaskCard({data, removeForm, saveTask, removeTask}){
     const handleAction = () => {
         removeTask(data._id)
     }
-    
 
+    const openTaskWindow = () => {
+        setopenModal(true)
+    }
+
+    const handleClose = () => {
+        console.log("Check close Modal")
+        setopenModal((prevState) => !prevState)
+    }
+    console.log("check modal", openModal)
     return(
-        <Card sx={{mb:5, maxWidth:280,cursor:'pointer'}}>
+        <Card sx={{mb:5, maxWidth:280,cursor:'pointer'}} onClick={openTaskWindow}>
             {
                 data._id == 'new-entry' ? null 
                 :
@@ -81,12 +90,12 @@ function TaskCard({data, removeForm, saveTask, removeTask}){
                         <CloseIcon />
                     </IconButton>
                 </CardActions>
-                : 
+                : data?.check_list?.length > 0 ? 
                 <CardActions sx={{pl:3,pb:2,pr:3}}>
                     <IconButton size='small' aria-label='settings' className='card-more-options' sx={{ color: 'primary.main' }} onClick={handleCheckList}>
                         <PlaylistCheck />
                     </IconButton>
-                </CardActions>
+                </CardActions> : null
             }
 
             {/* <CardActions sx={{pl:3,pb:3,pr:3}}>
