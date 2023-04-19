@@ -109,12 +109,13 @@ function TaskModal({open, handleClose, task, handleSave}){
             <DialogContent>
                 <Box sx={{border:'1px solid #000', borderRadius:2}}>
                     
-                        <MUIRichTextEditor
+                        {/* <MUIRichTextEditor
                             label="Type something here..."
                             onSave={save}
                             inlineToolbar={true}
                             value={richText}
-                        />
+                            
+                        /> */}
                       
                 </Box>
 
