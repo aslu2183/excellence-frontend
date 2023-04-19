@@ -25,6 +25,7 @@ function Panel({data, onAction}){
     const closeModalFn = () => {
         setopenModal(false)
     }
+    
     return (
         <Box sx={{display:'flex',overflow:'auto'}}>
             

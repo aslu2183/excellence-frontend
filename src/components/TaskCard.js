@@ -42,16 +42,12 @@ function TaskCard({data, removeForm, saveTask, removeTask}){
         setopenModal(true)
     }
 
-    const handleClose = () => {
-        console.log("Check close Modal")
-        setopenModal((prevState) => !prevState)
-    }
-    console.log("check modal", openModal)
     return(
         <Card sx={{mb:5, maxWidth:280,cursor:'pointer'}} onClick={openTaskWindow}>
             {
                 data._id == 'new-entry' ? null 
                 :
+                
                 <CardHeader
                     title={<Typography variant="subtitle2" sx={{color:'common.white',fontWeight:'bold'}}>{moment(data.updatedAt).format('LLL')}</Typography>}
                     action={

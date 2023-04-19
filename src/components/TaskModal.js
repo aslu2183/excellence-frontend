@@ -8,6 +8,7 @@ import Button from '@mui/material/Button';
 
 function TaskModal({open, handleClose, task}){
     console.log("Open check ",open)
+    
     return (
         <Dialog open={open} onClose={handleClose}>
             <DialogTitle>Subscribe</DialogTitle>
