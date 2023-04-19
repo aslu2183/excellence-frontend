@@ -11,7 +11,7 @@ import TaskCard from "./TaskCard";
 import Axios from "src/helpers/api";
 
 
-function PanelCard({data, onAction}){
+function PanelCard({data, onAction, openModal}){
     const handleAction = (e) => {
         e.preventDefault()
         onAction(data._id)
@@ -46,8 +46,13 @@ function PanelCard({data, onAction}){
             _id : `saved-entry-${tasks.length}`,
             panelId : data._id,
             boardId : data.boardId,
-            description : desc,
-            check_list: []
+            description : desc.description,
+            colors : {
+                header : desc.headerColor,
+                content: desc.contentColor
+            },
+            check_list: [],
+            position:tasks.length
         }
         tasks.splice(0,1,item)
         settasks((prevState) => [...prevState ])
@@ -79,6 +84,7 @@ function PanelCard({data, onAction}){
         })
     }
     
+    
     return(
         
         <Card>
@@ -91,16 +97,17 @@ function PanelCard({data, onAction}){
                 }
                 sx={{backgroundColor:theme.palette.primary.main,p:2}}
             />
-            <CardContent sx={{ pt: theme => `${theme.spacing(2)} !important`, minHeight:50, maxHeight:(document.body.clientHeight - 366), overflowY:'auto', pl:3, pr:3,backgroundColor:theme.palette.primary.light }}>
+            <CardContent sx={{ pt: theme => `${theme.spacing(2)} !important`, minHeight:50, maxHeight:(document.body.clientHeight - 366), minHeight:(document.body.clientHeight - 366), overflowY:'auto', pl:3, pr:3}}>
                 {
                     tasks.map((item) => {
                         return(
                             <TaskCard 
                                 data={item} 
-                                key={item._id} 
+                                key={item._id}
                                 removeForm={removeForm}
                                 saveTask={saveTask}
-                                removeTask={removeTask}>
+                                removeTask={removeTask}
+                                openModal={openModal}>
                             </TaskCard>
                         )
                     })
