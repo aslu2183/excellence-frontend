@@ -1,12 +1,19 @@
-import React from "react";
+import React,{ useState } from "react";
 import Grid from '@mui/material/Grid'
 import Card from '@mui/material/Card'
 import Box from '@mui/material/Box';
 import PanelCard from "./PanelCard";
 import Typography from '@mui/material/Typography';
+import TaskModal from "./TaskModal";
+import Axios from "src/helpers/api";
+
+
 
 function Panel({data, onAction}){
-    if(data?.panels?.length <= 0){
+    const [openModal, setopenModal ] = useState(false);
+    const [modalData, setmodalData]  = useState({});
+    const [panelData, setpanelData]  = useState(data)
+    if(panelData?.panels?.length <= 0){
         return (
             <Box sx={{display:'flex',alignItems:'center',flexDirection:'column'}}>
                 <Typography variant="h5">No Panels Created Yet.</Typography>
@@ -14,15 +21,55 @@ function Panel({data, onAction}){
             </Box>
         )
     }
+
+    const openModalFn = (item={}) => {
+        setmodalData(item)
+        setopenModal(true)
+    }
+    
+    const closeModalFn = () => {
+        setopenModal(false)
+    }
+
+    const updateTask = (taskData) => {
+        const reqData = taskData?.checklist?.map((item) => {
+            delete item._id;
+            
+            return item
+        })
+        taskData['checklist'] = reqData
+        Axios().post('/update-task',taskData)
+        .then((res) => {
+            const response = res.data
+            const currentTask = panelData?.tasks?.find((item) => item._id.toString() == response.data._id.toString())
+            if(currentTask){
+                currentTask["longDescription"] = response.data.longDescription
+                currentTask["checklist"] = response.data.checklist
+                setpanelData(panelData)
+            }
+            else{
+                setpanelData((prevState) => ({
+                    ...prevState,
+                    tasks : [
+                        ...prevState.tasks,
+                        {...response.data}
+                    ]
+                }))
+            }
+            closeModalFn()
+        }).catch((error) => {
+            console.log("Error ",error)
+        })
+    }
     
     return (
         <Box sx={{display:'flex',overflow:'auto'}}>
             
             {
-                data?.panels?.map((res) => {
+                panelData?.panels?.map((res) => {
                     const tasks = data.tasks.filter((task) => task.panelId.toString() == res._id.toString())
                     tasks.sort((a,b) => new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime())
-                    
+
                     const panelData = {
                         ...res,
                         tasks   : tasks,
@@ -33,14 +80,19 @@ function Panel({data, onAction}){
                         <Box sx={{minWidth:280,mb:2,mr:3}} key={res._id}>
                             <PanelCard 
                                 data={panelData} 
-                                onAction={onAction}>
+                                onAction={onAction}
+                                openModal={openModalFn}>
                             </PanelCard>
                         </Box>   
                        
                     )
                 })
             }
-           
+            <TaskModal 
+                open={openModal} 
+                handleClose={closeModalFn} 
+                task={modalData}
+                handleSave={updateTask}></TaskModal>
         </Box>
     )
 }
