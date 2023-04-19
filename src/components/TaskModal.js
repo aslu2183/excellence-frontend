@@ -7,13 +7,13 @@ import DialogTitle from '@mui/material/DialogTitle';
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
 import { createTheme, ThemeProvider } from '@mui/material/styles'
-import MUIRichTextEditor from "mui-rte";
+import MUIRichTextEditor from "../library/mui-rte"
 import { Typography } from '@mui/material';
 import TextField from '@mui/material/TextField';
 import FormGroup from '@mui/material/FormGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
-import { convertToRaw } from 'draft-js'
+
 
 
 function TaskModal({open, handleClose, task, handleSave}){
@@ -71,7 +71,7 @@ function TaskModal({open, handleClose, task, handleSave}){
 
             return false;
         }
-        
+
         const item = {
             description : text,
             is_completed: false,
