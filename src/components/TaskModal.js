@@ -17,27 +17,24 @@ import Checkbox from '@mui/material/Checkbox';
 
 
 function TaskModal({open, handleClose, task, handleSave}){
-    console.log("New Task ",task)
+    
     const [check_list, setcheck_list] = useState([])
     const [richText, setrichText] = useState("")
     const [text, settext] = useState("")
     const [hasError, setHasError] = useState("")
     const [selectedId, setselectedId] = useState({})
 
-    const myTheme = createTheme({
-        overrides: {
-            MUIRichTextEditor: {
-                root: {
-                    
-                },
-                editor: {
-                    paddingLeft:10,
-                    minHeight:250,
-                    color:'black'
-                }
-            }
-        }
-    })
+    // const myTheme = createTheme({
+    //     overrides: {
+    //         MUIRichTextEditor: {
+    //             editor: {
+    //                 paddingLeft:10,
+    //                 minHeight:250,
+    //                 color:'black'
+    //             }
+    //         }
+    //     }
+    // })
 
     React.useEffect(() => {
         if(open){
@@ -111,14 +108,14 @@ function TaskModal({open, handleClose, task, handleSave}){
             <DialogTitle sx={{fontWeight:'bold'}}>{task.description}</DialogTitle>
             <DialogContent>
                 <Box sx={{border:'1px solid #000', borderRadius:2}}>
-                    <ThemeProvider theme={myTheme}>
+                    
                         <MUIRichTextEditor
                             label="Type something here..."
                             onSave={save}
                             inlineToolbar={true}
                             value={richText}
                         />
-                    </ThemeProvider>    
+                      
                 </Box>
 
                 <Box sx={{mt:5}}>
