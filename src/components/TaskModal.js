@@ -6,7 +6,7 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
-import { createTheme, ThemeProvider } from '@mui/material/styles'
+import { createMuiTheme, ThemeProvider } from '@mui/material/styles'
 import MUIRichTextEditor from "../library/mui-rte"
 import { Typography } from '@mui/material';
 import TextField from '@mui/material/TextField';
@@ -24,17 +24,17 @@ function TaskModal({open, handleClose, task, handleSave}){
     const [hasError, setHasError] = useState("")
     const [selectedId, setselectedId] = useState({})
 
-    // const myTheme = createTheme({
-    //     overrides: {
-    //         MUIRichTextEditor: {
-    //             editor: {
-    //                 paddingLeft:10,
-    //                 minHeight:250,
-    //                 color:'black'
-    //             }
-    //         }
-    //     }
-    // })
+    const myTheme = createMuiTheme({
+        overrides: {
+            MUIRichTextEditor: {
+                editor: {
+                    paddingLeft:10,
+                    minHeight:250,
+                    color:'black'
+                }
+            }
+        }
+    })
 
     React.useEffect(() => {
         if(open){
@@ -47,11 +47,13 @@ function TaskModal({open, handleClose, task, handleSave}){
 
 
     React.useEffect(() => {
-        const getCheckedList= check_list.find((item) => item._id.toString() == selectedId.id.toString())
-        if(getCheckedList){
-            getCheckedList["is_completed"] = selectedId.checked
-            setcheck_list(check_list)
-        }
+        if(selectedId?.id){
+            const getCheckedList= check_list.find((item) => item._id.toString() == selectedId.id.toString())
+            if(getCheckedList){
+                getCheckedList["is_completed"] = selectedId.checked
+                setcheck_list(check_list)
+            }
+        }    
     },[selectedId.id, selectedId.checked])
 
     const save = (data) => {
@@ -108,14 +110,16 @@ function TaskModal({open, handleClose, task, handleSave}){
             <DialogTitle sx={{fontWeight:'bold'}}>{task.description}</DialogTitle>
             <DialogContent>
                 <Box sx={{border:'1px solid #000', borderRadius:2}}>
-                    
-                        {/* <MUIRichTextEditor
+                    <ThemeProvider theme={myTheme}>
+                        <MUIRichTextEditor
                             label="Type something here..."
                             onSave={save}
                             inlineToolbar={true}
                             value={richText}
                             
-                        /> */}
+                        />
+                    </ThemeProvider>
+                        
                       
                 </Box>
 
@@ -141,7 +145,7 @@ function TaskModal({open, handleClose, task, handleSave}){
 
                                     return (
                                         <FormControlLabel 
-                                            control={<Checkbox onChange={onCheckBoxChange} value={item._id} checked={item.is_completed}/>} 
+                                            control={<Checkbox onChange={onCheckBoxChange} value={item._id} checked={item.is_completed} inputProps={{ 'aria-label': 'controlled' }}/>} 
                                             label={item.description} 
                                             key={item._id}
                                         />
