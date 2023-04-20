@@ -13,11 +13,11 @@ import TextField from '@mui/material/TextField';
 import FormGroup from '@mui/material/FormGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
-import { convertToRaw } from 'draft-js'
+
 
 
 function TaskModal({open, handleClose, task, handleSave}){
-    console.log("New Task ",task)
+    
     const [check_list, setcheck_list] = useState([])
     const [richText, setrichText] = useState("")
     const [text, settext] = useState("")
@@ -50,11 +50,13 @@ function TaskModal({open, handleClose, task, handleSave}){
 
 
     React.useEffect(() => {
-        const getCheckedList= check_list.find((item) => item._id.toString() == selectedId.id.toString())
-        if(getCheckedList){
-            getCheckedList["is_completed"] = selectedId.checked
-            setcheck_list(check_list)
-        }
+        if(selectedId?.id){
+            const getCheckedList= check_list.find((item) => item._id.toString() == selectedId.id.toString())
+            if(getCheckedList){
+                getCheckedList["is_completed"] = selectedId.checked
+                setcheck_list(check_list)
+            }
+        }    
     },[selectedId.id, selectedId.checked])
 
     const save = (data) => {
