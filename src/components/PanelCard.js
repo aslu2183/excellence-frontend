@@ -9,6 +9,7 @@ import { CardActions, useTheme } from "@mui/material";
 import Button from '@mui/material/Button';
 import TaskCard from "./TaskCard";
 import Axios from "src/helpers/api";
+import { Draggable } from 'react-beautiful-dnd';
 
 
 function PanelCard({data, onAction, openModal, updatePanelData}){
@@ -103,16 +104,25 @@ function PanelCard({data, onAction, openModal, updatePanelData}){
             />
             <CardContent sx={{ pt: theme => `${theme.spacing(2)} !important`, minHeight:50, maxHeight:(document.body.clientHeight - 366), minHeight:(document.body.clientHeight - 366), overflowY:'auto', pl:3, pr:3}}>
                 {
-                    tasks?.map((item) => {
+                    tasks?.map((item,i) => {
                         return(
-                            <TaskCard 
-                                data={item} 
-                                key={item._id}
-                                removeForm={removeForm}
-                                saveTask={saveTask}
-                                removeTask={removeTask}
-                                openModal={openModal}>
-                            </TaskCard>
+                            <Draggable key={item._id} draggableId={`Task-${item._id}`} index={i}>
+                                {(provided) => (
+                                    <div 
+                                        {...provided.draggableProps}
+                                        {...provided.dragHandleProps}
+                                        ref = {provided.innerRef}>
+                                        <TaskCard 
+                                            data={item} 
+                                            removeForm={removeForm}
+                                            saveTask={saveTask}
+                                            removeTask={removeTask}
+                                            openModal={openModal}>
+                                        </TaskCard>
+                                    </div>    
+                                )}
+                            </Draggable>
+                            
                         )
                     })
                 }
