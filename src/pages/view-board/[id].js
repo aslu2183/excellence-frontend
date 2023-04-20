@@ -45,12 +45,23 @@ function ViewBoard(){
                 name : data
             }
         }
+        const newPanel = {
+          name : data,
+          _id  : details.panels.length + 1
+        }
+        setDetails((prevState) => ({
+          ...prevState,
+          panels : [
+            ...prevState.panels,
+            {...newPanel}
+          ]
+        }))
         Axios().post('/create-panel',params)
         .then((res) => {
           const response = res.data
           setDetails((prevState) => ({
             ...prevState,
-            panels : [...response.data.panels]
+            panels : response.data.panels
           }))
           setbuttonLoader(false)
         }).catch((error) => {

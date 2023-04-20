@@ -57,7 +57,7 @@ function Panel({data, onAction}){
             console.log("Error ",error)
         })
     }
-    
+
     const updatePanel = (tasks) => {
         setpanelData((prevState) => ({
             ...prevState,
@@ -87,7 +87,7 @@ function Panel({data, onAction}){
                         tasks   : tasks,
                         boardId : data._id
                     }
-                    
+                  console.log("Res ",res)
                     return (
                         <Box sx={{minWidth:280,mb:2,mr:3}} key={res._id}>
                             <PanelCard 
