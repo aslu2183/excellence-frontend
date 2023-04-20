@@ -13,15 +13,7 @@ function Panel({data, onAction}){
     const [openModal, setopenModal ] = useState(false);
     const [modalData, setmodalData]  = useState({});
     const [panelData, setpanelData]  = useState(data)
-    if(panelData?.panels?.length <= 0){
-        return (
-            <Box sx={{display:'flex',alignItems:'center',flexDirection:'column'}}>
-                <Typography variant="h5">No Panels Created Yet.</Typography>
-                <Typography variant="h6">Create your first panel on the board</Typography>
-            </Box>
-        )
-    }
-
+    
     React.useEffect(() => {
         setpanelData(data)
     },[data])
@@ -65,12 +57,23 @@ function Panel({data, onAction}){
             console.log("Error ",error)
         })
     }
+    
     const updatePanel = (tasks) => {
         setpanelData((prevState) => ({
             ...prevState,
             tasks : tasks
         }))
     }
+
+    if(panelData?.panels?.length <= 0){
+        return (
+            <Box sx={{display:'flex',alignItems:'center',flexDirection:'column'}}>
+                <Typography variant="h5">No Panels Created Yet.</Typography>
+                <Typography variant="h6">Create your first panel on the board</Typography>
+            </Box>
+        )
+    }
+    
     return (
         <Box sx={{display:'flex',overflow:'auto'}}>
             
