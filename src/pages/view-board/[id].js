@@ -45,6 +45,7 @@ function ViewBoard(){
                 name : data
             }
         }
+        
         const newPanel = {
           name : data,
           _id  : details.panels.length + 1
