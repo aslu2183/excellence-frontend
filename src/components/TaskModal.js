@@ -22,7 +22,7 @@ function TaskModal({open, handleClose, task, handleSave}){
     const [richText, setrichText] = useState("")
     const [text, settext] = useState("")
     const [hasError, setHasError] = useState("")
-    const [selectedId, setselectedId] = useState({})
+    const [isSelected, setisSelected] = useState(false)
 
     const myTheme = createTheme({
         overrides: {
@@ -48,16 +48,6 @@ function TaskModal({open, handleClose, task, handleSave}){
         }
     },[open])
 
-
-    React.useEffect(() => {
-        if(selectedId?.id){
-            const getCheckedList= check_list.find((item) => item._id.toString() == selectedId.id.toString())
-            if(getCheckedList){
-                getCheckedList["is_completed"] = selectedId.checked
-                setcheck_list(check_list)
-            }
-        }    
-    },[selectedId.id, selectedId.checked])
 
     const save = (data) => {
         setrichText(data);
@@ -102,12 +92,14 @@ function TaskModal({open, handleClose, task, handleSave}){
 
     const onCheckBoxChange = (event) => {
         const check_list_id = event.target.value
-        setselectedId({
-            id : check_list_id,
-            checked : event.target.checked
-        })
+        const getCheckedList= check_list.find((item) => item._id.toString() == check_list_id.toString())
+        if(getCheckedList){
+            getCheckedList["is_completed"] = event.target.checked
+            setcheck_list(check_list)
+            setisSelected(!isSelected)
+        }
     }
-       
+    
     return (
         <Dialog open={open} onClose={handleClose} maxWidth="md" fullWidth={true}>
             <DialogTitle sx={{fontWeight:'bold'}}>{task.description}</DialogTitle>
@@ -140,14 +132,12 @@ function TaskModal({open, handleClose, task, handleSave}){
                     <Box sx={{mt:2}}>
                         <FormGroup>
                             {
-                                check_list?.map((item) => {
-                                    console.log("Check List Item ",item)
-
+                                check_list?.map((item,index) => {
                                     return (
                                         <FormControlLabel 
                                             control={<Checkbox onChange={onCheckBoxChange} value={item._id} checked={item.is_completed}/>} 
                                             label={item.description} 
-                                            key={item._id}
+                                            key={item?._id||index}
                                         />
                                         
                                     )

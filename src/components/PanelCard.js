@@ -11,7 +11,7 @@ import TaskCard from "./TaskCard";
 import Axios from "src/helpers/api";
 
 
-function PanelCard({data, onAction, openModal}){
+function PanelCard({data, onAction, openModal, updatePanelData}){
     const handleAction = (e) => {
         e.preventDefault()
         onAction(data._id)
@@ -19,7 +19,6 @@ function PanelCard({data, onAction, openModal}){
 
     const [tasks, settasks] = useState(data.tasks)
     const theme = useTheme()
-    
 
     const addNewCard = () => {
         const findNewEntry = tasks.find((item) => item._id == "new-entry")
@@ -65,6 +64,7 @@ function PanelCard({data, onAction, openModal}){
             const newTasks = tasks.find((item) => item._id == `saved-entry-${tasks.length}`)
             newTasks['_id']= newId
             settasks(tasks)
+            updatePanelData(tasks)
         })
         .catch((error) => {
             console.log("Error ",error)
@@ -84,6 +84,10 @@ function PanelCard({data, onAction, openModal}){
         })
     }
     
+    React.useEffect(() => {
+        settasks(data.tasks)
+    },[data.tasks])
+
     
     return(
         
@@ -99,7 +103,7 @@ function PanelCard({data, onAction, openModal}){
             />
             <CardContent sx={{ pt: theme => `${theme.spacing(2)} !important`, minHeight:50, maxHeight:(document.body.clientHeight - 366), minHeight:(document.body.clientHeight - 366), overflowY:'auto', pl:3, pr:3}}>
                 {
-                    tasks.map((item) => {
+                    tasks?.map((item) => {
                         return(
                             <TaskCard 
                                 data={item} 

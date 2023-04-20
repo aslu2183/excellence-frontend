@@ -22,6 +22,10 @@ function Panel({data, onAction}){
         )
     }
 
+    React.useEffect(() => {
+        setpanelData(data)
+    },[data])
+
     const openModalFn = (item={}) => {
         setmodalData(item)
         setopenModal(true)
@@ -61,16 +65,21 @@ function Panel({data, onAction}){
             console.log("Error ",error)
         })
     }
-    
+    const updatePanel = (tasks) => {
+        setpanelData((prevState) => ({
+            ...prevState,
+            tasks : tasks
+        }))
+    }
     return (
         <Box sx={{display:'flex',overflow:'auto'}}>
             
             {
                 panelData?.panels?.map((res) => {
-                    const tasks = data.tasks.filter((task) => task.panelId.toString() == res._id.toString())
-                    tasks.sort((a,b) => new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime())
+                    const tasks = panelData?.tasks.filter((task) => task.panelId.toString() == res._id.toString())
+                    tasks?.sort((a,b) => new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime())
 
-                    const panelData = {
+                    const panelCardData = {
                         ...res,
                         tasks   : tasks,
                         boardId : data._id
@@ -79,9 +88,10 @@ function Panel({data, onAction}){
                     return (
                         <Box sx={{minWidth:280,mb:2,mr:3}} key={res._id}>
                             <PanelCard 
-                                data={panelData} 
+                                data={panelCardData} 
                                 onAction={onAction}
-                                openModal={openModalFn}>
+                                openModal={openModalFn}
+                                updatePanelData={updatePanel}>
                             </PanelCard>
                         </Box>   
                        
