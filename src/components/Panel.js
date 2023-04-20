@@ -86,6 +86,7 @@ function Panel({data, onAction}){
             const panelTasks = [...panelData?.tasks.filter((item) => item.panelId.toString() == panelid.toString())]
             const [removed] = panelTasks.splice(source.index,1)
             panelTasks.splice(destination.index, 0, removed);
+            
             const newTasks = panelTasks.map((item,index) => {
                 return {
                     ...item,
