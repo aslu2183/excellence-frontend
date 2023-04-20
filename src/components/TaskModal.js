@@ -6,7 +6,7 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
-import { createMuiTheme, ThemeProvider } from '@mui/material/styles'
+import { createTheme, ThemeProvider } from '@mui/material/styles'
 import MUIRichTextEditor from "../library/mui-rte"
 import { Typography } from '@mui/material';
 import TextField from '@mui/material/TextField';
@@ -24,7 +24,7 @@ function TaskModal({open, handleClose, task, handleSave}){
     const [hasError, setHasError] = useState("")
     const [selectedId, setselectedId] = useState({})
 
-    const myTheme = createMuiTheme({
+    const myTheme = createTheme({
         overrides: {
             MUIRichTextEditor: {
                 editor: {
